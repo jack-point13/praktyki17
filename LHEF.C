@@ -4,12 +4,31 @@
 #include <TStyle.h>
 #include <TCanvas.h>
 
-#include <iotream>
-
-using namespace std;
-
-void LHEF::Loop(char* name)
+void LHEF::Loop()
 {
+//   In a ROOT session, you can do:
+//      Root > .L LHEF.C
+//      Root > LHEF t
+//      Root > t.GetEntry(12); // Fill t data members with entry number 12
+//      Root > t.Show();       // Show values of entry 12
+//      Root > t.Show(16);     // Read and show values of entry 16
+//      Root > t.Loop();       // Loop on all entries
+//
+
+//     This is the loop skeleton where:
+//    jentry is the global entry number in the chain
+//    ientry is the entry number in the current Tree
+//  Note that the argument to GetEntry must be:
+//    jentry for TChain::GetEntry
+//    ientry for TTree::GetEntry and TBranch::GetEntry
+//
+//       To read only selected branches, Insert statements like:
+// METHOD1:
+//    fChain->SetBranchStatus("*",0);  // disable all branches
+//    fChain->SetBranchStatus("branchname",1);  // activate branchname
+// METHOD2: replace line
+//    fChain->GetEntry(jentry);       //read all branches
+//by  b_branchname->GetEntry(ientry); //read only this branch
    if (fChain == 0) return;
 
    Long64_t nentries = fChain->GetEntriesFast();
@@ -21,23 +40,4 @@ void LHEF::Loop(char* name)
       nb = fChain->GetEntry(jentry);   nbytes += nb;
       // if (Cut(ientry) < 0) continue;
    }
-}
-
-int main(int argc, char **argv){
-    if (argc != 3)
-    {
-        cout << "Too few arguments!" << endl;
-        cout << "Proper form of input:" << endl;
-        cout << "./program\tDATAFILE.root\tHISTOGRAMFILE.root" << endl;
-        return 1;
-    }
-    cout << argv[1] << "\t" << argv[2] << endl;
-
-    TChain *chain = new TChain("LHEF");
-    chain->Add(argv[1]);
-
-    LHEF obiekt(chain);
-    obiekt.Loop(argv[2]);
-
-    return 0;
 }

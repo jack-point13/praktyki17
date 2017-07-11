@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////
 // This class has been automatically generated on
-// Tue Jul 11 08:44:45 2017 by ROOT version 6.04/14
+// Tue Jul 11 10:44:16 2017 by ROOT version 5.34/25
 // from TTree LHEF/Analysis tree
 // found on file: unweighted_events.root
 //////////////////////////////////////////////////////////
@@ -13,18 +13,18 @@
 #include <TFile.h>
 
 // Header file for the classes stored in the TTree if any.
-#include "TClonesArray.h"
-#include "TObject.h"
-
-class LHEF {
-public :
-   TChain          *fChain;   //!pointer to the analyzed TTree or TChain
-   Int_t           fCurrent; //!current Tree number in a TChain
+#include "/var/build/72a/x86_64-slc6-gcc48-opt-build/projects/ROOT-5.34.25/src/ROOT/5.34.25/core/cont/inc/TClonesArray.h"
+#include "/var/build/72a/x86_64-slc6-gcc48-opt-build/projects/ROOT-5.34.25/src/ROOT/5.34.25/core/base/inc/TObject.h"
 
 // Fixed size dimensions of array or collections stored in the TTree if any.
    const Int_t kMaxEvent = 1;
    const Int_t kMaxRwgt = 1;
    const Int_t kMaxParticle = 9;
+
+class LHEF {
+public :
+   TTree          *fChain;   //!pointer to the analyzed TTree or TChain
+   Int_t           fCurrent; //!current Tree number in a TChain
 
    // Declaration of leaf types
    Int_t           Event_;
@@ -104,13 +104,13 @@ public :
    TBranch        *b_Particle_Spin;   //!
    TBranch        *b_Particle_size;   //!
 
-   LHEF(TChain *tree=0);
+   LHEF(TTree *tree=0);
    virtual ~LHEF();
    virtual Int_t    Cut(Long64_t entry);
    virtual Int_t    GetEntry(Long64_t entry);
    virtual Long64_t LoadTree(Long64_t entry);
-   virtual void     Init(TChain *tree);
-   virtual void     Loop(char*);
+   virtual void     Init(TTree *tree);
+   virtual void     Loop();
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
 };
@@ -118,7 +118,7 @@ public :
 #endif
 
 #ifdef LHEF_cxx
-LHEF::LHEF(TChain *tree) : fChain(0) 
+LHEF::LHEF(TTree *tree) : fChain(0) 
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
@@ -158,7 +158,7 @@ Long64_t LHEF::LoadTree(Long64_t entry)
    return centry;
 }
 
-void LHEF::Init(TChain *tree)
+void LHEF::Init(TTree *tree)
 {
    // The Init() function is called when the selector needs to initialize
    // a new tree or chain. Typically here the branch addresses and branch
